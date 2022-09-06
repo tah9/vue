@@ -1,31 +1,52 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
-  {
-    path: '/',
-    name: 'Home',
-    component: Home
-  },
-  {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: function () {
-      return import(/* webpackChunkName: "about" */ '../views/About.vue')
+    {
+        path: '/',
+        component: () => import('../views/Guide/Login')
+    },{
+        path: '/login',
+        component: () => import('../views/Guide/Login')
+    }, {
+        path: '/dishInfo',
+        component: () => import('../views/Main/DishInfo')
+    }, {
+        path: '/search',
+        component: () => import('../views/Main/SearchResult')
+    },
+    {
+        path: '/register',
+        component: () => import('../views/Guide/Register')
+    }, {
+        path: '/foodInfo',
+        component: () => import('../views/Main/FoodInfo')
+    },
+    {
+        path: '/main',
+        component: () => import('../views/Main/Main'),
+        children: [
+            {
+                path: 'home',
+                component: () => import('../views/Main/Home')
+            }, {
+                path: 'center',
+                component: () => import('../views/Main/Center')
+            }, {
+                path: 'me',
+                component: () => import('../views/Main/Me')
+            }
+        ]
     }
-  }
 ]
 
 const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
-  routes
+    // mode:'',
+    base: process.env.NODE_ENV==='development'?process.env.BASE_URL:'/dist/',
+
+    routes
 })
 
 export default router
